@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  gateway:
+      image: localhost:5555/mc-microservices-gateway
+      build:
+        context: .
+        dockerfile: Dockerfile
+        target: gateway
+      volumes:
+      - node_modules:/app/node_modules
+  account:
+      image: localhost:5555/mc-microservices-account
+      build:
+        context: .
+        dockerfile: Dockerfile
+        target: account
+      volumes:
+      - node_modules:/app/node_modules
+  auth:
+      image: localhost:5555/mc-microservices-auth
+      build:
+        context: .
+        dockerfile: Dockerfile
+        target: auth
+      volumes:
+      - node_modules:/app/node_modules
+  health:
+      image: localhost:5555/mc-microservices-health
+      build:
+        context: .
+        dockerfile: Dockerfile
+        target: health
+      volumes:
+      - node_modules:/app/node_modules
+volumes:
+  node_modules:

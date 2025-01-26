@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-config-map
+data:
+  AMQP_URL: amqp://rabbitmq-cluster-ip-service
+  DB_URL: mongodb://root:root@mc-v2-mongodb-lynx,mc-v2-mongodb-puma,mc-v2-mongodb-wolf/mc?authSource=admin&replicaSet=rs1

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+spec:
+  selector:
+    matchLabels:
+      microservice: gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        microservice: gateway
+    spec:
+      containers:
+      - name: gateway-deployment
+        image: localhost:5555/mc-microservices-gateway
+        ports:
+            - containerPort: 3000
+        env:
+        - name: GLOBAL_PREFIX
+          value: api/v2
+        - name: AMQP_URL
+          valueFrom:
+            configMapKeyRef:   
+              name: env-config-map
+              key: AMQP_URL

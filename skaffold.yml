@@ -1,0 +1,57 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - "k8s/**"
+build:
+  local:
+    concurrency: 1
+    tryImportMissing: false
+    useDockerCLI: false
+    push: false
+  artifacts:
+    - image: localhost:5555/mc-microservices-gateway
+      context: .
+      docker:
+        dockerfile: Dockerfile.dev
+        target: gateway
+        noCache: false
+        squash: false
+      sync:
+        manual:
+          - dest: .
+            src: "apps/**/src/**/*.ts"
+    - image: localhost:5555/mc-microservices-account
+      context: .
+      docker:
+        dockerfile: Dockerfile.dev
+        target: account
+        noCache: false
+        squash: false
+      sync:
+        manual:
+          - dest: .
+            src: "apps/**/src/**/*.ts"
+    - image: localhost:5555/mc-microservices-health
+      context: .
+      docker:
+        dockerfile: Dockerfile.dev
+        target: health
+        noCache: false
+        squash: false
+      sync:
+        manual:
+          - dest: .
+            src: "apps/**/src/**/*.ts"
+    - image: localhost:5555/mc-microservices-auth
+      context: .
+      docker:
+        dockerfile: Dockerfile.dev
+        target: auth
+        noCache: false
+        squash: false
+      sync:
+        manual:
+          - dest: .
+            src: "apps/**/src/**/*.ts"

@@ -1,0 +1,32 @@
+FROM node:16.13.0-alpine as development
+WORKDIR /app
+RUN apk update \
+    && apk upgrade \
+    && apk add python3 \
+    && apk add make \
+    && apk add gcc \
+    && apk add g++
+COPY package.json .
+RUN yarn install --frozen-lockfile --production
+COPY .webpack ./.webpack
+COPY tools ./tools
+COPY nx.json workspace.json tsconfig.base.json ./
+COPY libs ./libs
+COPY apps ./apps
+
+FROM development as gateway
+CMD [ "yarn", "nx", "serve", "gateway", "--inspect" ]
+
+FROM development as account
+CMD [ "yarn", "nx", "serve", "account", "--inspect" ]
+
+FROM development as auth
+CMD [ "yarn", "nx", "serve", "auth", "--inspect" ]
+
+FROM development as health
+CMD [ "yarn", "nx", "serve", "health", "--inspect" ]
+
+FROM development as test
+ENV GIT_WORK_TREE=/app/ GIT_DIR=/app/.git
+RUN apk update && \
+    apk add git

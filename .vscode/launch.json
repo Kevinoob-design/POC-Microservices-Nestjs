@@ -1,0 +1,62 @@
+{
+    "configurations": [
+        {
+            "name": "Debug on Kubernetes",
+            "type": "cloudcode.kubernetes",
+            "request": "launch",
+            "skaffoldConfig": "${workspaceFolder}/skaffold.yml",
+            "watch": true,
+            "cleanUp": true,
+            "portForward": true,
+            "debug": [
+                {
+                    "image": "localhost:5555/mc-microservices-gateway",
+                    "containerName": "gateway-deployment",
+                    "sourceFileMap": {
+                        "${workspaceFolder}": "/app",
+                    }
+                },
+                {
+                    "image": "localhost:5555/mc-microservices-auth",
+                    "containerName": "auth-deployment",
+                    "sourceFileMap": {
+                        "${workspaceFolder}": "/app"
+                    }
+                },
+                {
+                    "image": "localhost:5555/mc-microservices-account",
+                    "containerName": "account-deployment",
+                    "sourceFileMap": {
+                        "${workspaceFolder}": "/app"
+                    }
+                },
+                {
+                    "image": "localhost:5555/mc-microservices-health",
+                    "containerName": "health-deployment",
+                    "sourceFileMap": {
+                        "${workspaceFolder}": "/app"
+                    }
+                }
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 1
+            },
+        },
+        {
+            "command": "yarn start",
+            "name": "start",
+            "request": "launch",
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "command": "yarn test:watch",
+            "name": "test:debug",
+            "request": "launch",
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

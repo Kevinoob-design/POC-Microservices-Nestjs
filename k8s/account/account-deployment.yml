@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-deployment
+spec:
+  selector:
+    matchLabels:
+      microservice: account
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        microservice: account
+    spec:
+      containers:
+      - name: account-deployment
+        image: localhost:5555/mc-microservices-account
+        ports:
+            - containerPort: 3000
+        env:   
+        - name: AMQP_URL
+          valueFrom:
+            configMapKeyRef:   
+              name: env-config-map
+              key: AMQP_URL
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:   
+              name: env-config-map
+              key: DB_URL

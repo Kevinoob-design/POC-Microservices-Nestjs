@@ -1,0 +1,53 @@
+{
+	"$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+	"sourceRoot": "apps/health/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/node:webpack",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/apps/health",
+				"main": "apps/health/src/main.ts",
+				"tsConfig": "apps/health/tsconfig.app.json",
+				"assets": ["apps/health/src/assets"],
+				"webpackConfig": ".webpack/microservice-dev.config.js"
+			},
+			"configurations": {
+				"production": {
+					"optimization": true,
+					"extractLicenses": true,
+					"inspect": false,
+					"fileReplacements": [
+						{
+							"replace": "apps/health/src/environments/environment.ts",
+							"with": "apps/health/src/environments/environment.prod.ts"
+						}
+					]
+				}
+			}
+		},
+		"serve": {
+			"executor": "@nrwl/node:node",
+			"options": {
+				"buildTarget": "health:build"
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/health/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/apps/health"],
+			"options": {
+				"jestConfig": "apps/health/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": []
+}

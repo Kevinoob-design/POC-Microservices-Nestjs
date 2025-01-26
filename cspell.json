@@ -1,0 +1,67 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        "node_modules/**",
+        ".husky/**",
+        "docker/**",
+        "dist/**",
+        "documentation/**",
+        "yarn.lock",
+        "docker-compose.yml",
+        "docker-compose.dev.yml",
+        "Dockerfile.dev",
+        "k8s/",
+        "skaffold.yml"
+    ],
+    "dictionaryDefinitions": [],
+    "language": "en,es",
+    "dictionaries": [
+        "spanish",
+        "corp-terms",
+        "fonts",
+        "filetypes",
+        "companies",
+        "node",
+        "typescript",
+        "npm"
+    ],
+    "words": [
+        "amqp",
+        "AMQP",
+        "buildable",
+        "Buildable",
+        "cacheable",
+        "commitlint",
+        "commitlintrc",
+        "compodoc",
+        "dtos",
+        "kubernetes",
+        "microservices",
+        "mongodb",
+        "nestjs",
+        "nginx",
+        "nrwl",
+        "parens",
+        "Questionaries",
+        "rabbitmq",
+        "Referimientos",
+        "skaffold",
+        "sonarjs",
+        "spanish",
+        "upserted"
+    ],
+    "languageSettings": [
+        {
+            "languageId": "markdown",
+            "caseSensitive": true
+        },
+        {
+            "languageId": "typescript",
+            "caseSensitive": false
+        }
+    ],
+    "ignoreWords": [],
+    "import": [
+        "@cspell/dict-es-es/cspell-ext.json"
+    ]
+}

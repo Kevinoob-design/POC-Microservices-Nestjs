@@ -1,0 +1,34 @@
+{
+	"$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+	"sourceRoot": "libs/proxy-clients/src",
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/js:tsc",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/libs/proxy-clients",
+				"tsConfig": "libs/proxy-clients/tsconfig.lib.json",
+				"packageJson": "libs/proxy-clients/package.json",
+				"main": "libs/proxy-clients/src/index.ts",
+				"assets": ["libs/proxy-clients/*.md"]
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/proxy-clients/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/proxy-clients"],
+			"options": {
+				"jestConfig": "libs/proxy-clients/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": []
+}

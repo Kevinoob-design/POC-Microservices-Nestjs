@@ -1,0 +1,106 @@
+version: '3.7'
+
+services:
+  mc-v2-mongodb-lynx:
+    image: mongo:4.4.4
+    container_name: mc-v2-mongodb-lynx
+    hostname: mc-v2-mongodb-lynx
+    restart: on-failure
+    command: mongod --bind_ip_all --port 27017 --replSet rs1 --keyFile /data/keys/mongo-repl.key
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+      target: development
+    environment:
+      - MONGO_INITDB_DATABASE=mc
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/data/logs
+    volumes:
+      - ./docker/db/mongodb_lynx/data:/data/db
+      - ./docker/db/mongodb_lynx/bk:/data/db_bk
+      - ./docker/db/mongod.conf/:/data/mongod.conf
+      - ./docker/db/backup:/data/backup/
+      - ./docker/db/scripts:/data/scripts/
+      - mc_v2_mongo_repl_key:/data/keys
+    ports:
+      - "27017:27017"
+    networks:
+      - mc-v2-ms-network
+    links:
+      - mc-v2-mongodb-puma
+      - mc-v2-mongodb-wolf
+
+  mc-v2-mongodb-puma:
+    image: mongo:4.4.4
+    container_name: mc-v2-mongodb-puma
+    hostname: mc-v2-mongodb-puma
+    restart: on-failure
+    command: mongod --bind_ip_all --port 27018 --replSet rs1 --keyFile /data/keys/mongo-repl.key
+    environment:
+      - MONGO_INITDB_DATABASE=mc
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/data/logs
+    volumes:
+      - ./docker/db/mongodb_puma/data:/data/db
+      - ./docker/db/mongodb_puma/bk:/data/db_bk
+      - ./docker/db/mongod.conf/:/data/mongod.conf
+      - mc_v2_mongo_repl_key:/data/keys
+    ports:
+      - "27018:27018"
+    networks:
+      - mc-v2-ms-network
+  mc-v2-mongodb-wolf:
+    image: mongo:4.4.4
+    container_name: mc-v2-mongodb-wolf
+    hostname: mc-v2-mongodb-wolf
+    restart: on-failure
+    command: mongod --bind_ip_all --port 27019 --replSet rs1 --keyFile /data/keys/mongo-repl.key
+    environment:
+      - MONGO_INITDB_DATABASE=mc
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/data/logs
+    volumes:
+      - ./docker/db/mongodb_wolf/data:/data/db
+      - ./docker/db/mongodb_wolf/bk:/data/db_bk
+      - ./docker/db/mongod.conf/:/data/mongod.conf
+      - mc_v2_mongo_repl_key:/data/keys
+    ports:
+      - "27019:27019"
+    networks:
+      - mc-v2-ms-network
+  mc-v2-coverage:
+    container_name: mc-v2-coverage
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    ports:
+      - 3001:8080
+    volumes:
+      - ./:/app
+      - node_modules:/docs/node_modules
+    command: yarn test:serve:cov
+  mc-v2-documentation:
+    container_name: mc-v2-documentation
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    ports:
+      - 3002:8080
+    volumes:
+      - ./:/app
+      - node_modules:/docs/node_modules
+    command: yarn docs
+
+volumes:
+  mc_v2_mongo_repl_key:
+  node_modules:
+networks:
+  mc-v2-ms-network:

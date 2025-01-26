@@ -1,0 +1,16 @@
+{
+	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
+	"version": 2,
+	"projects": {
+		"account": "apps/account",
+		"auth": "apps/auth",
+		"common": "libs/common",
+		"configuration": "libs/configuration",
+		"database": "libs/database",
+		"gateway": "apps/gateway",
+		"health": "apps/health",
+		"proxy-clients": "libs/proxy-clients",
+		"types": "libs/types",
+		"utils": "libs/utils"
+	}
+}
