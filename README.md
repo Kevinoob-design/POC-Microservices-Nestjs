@@ -1,6 +1,6 @@
 # README #
 
-## Getting started on MC V2 ##
+## Getting started on MC ##
 
 ### What is this repository for? ###
 
